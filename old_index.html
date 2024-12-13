@@ -1,0 +1,78 @@
+<style>
+body {
+  background-color: #ffd;
+}
+h1 {
+  color: #0a0;
+  text-shadow: 2px 2px #000;
+  text-align: center;
+}
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 100px;
+  padding-top: 20px;
+  background-color: #fff;
+  border: 1px solid #070;
+  border-radius: 50px;
+  color: #070;
+  font-size: 50px;
+  overflow: hidden;
+  text-align: center;
+  box-sizing: border-box;
+  transition-delay: 3s;
+}
+
+#inner-container {
+  width: 200px;
+  height: 101px;
+  margin-top: -130px;
+  background-color: rgba(0, 119, 0, 0.5);
+}
+#container {
+  margin-top: 0px;
+}
+a.website {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	-webkit-text-decoration: none;
+	text-decoration: none;
+	padding: 5px 20px;
+	background-color: #ffffff;
+	border: 3px solid #80a0c0;
+	color: #6080a0;
+}
+</style>
+<body onload="startLoader()">
+  <h1>Please wait</h1>
+  <div class="container" id="box">
+    <p id="container">0%</p>
+    <div id="inner-container">
+    </div>
+  </div>
+  
+</body>
+<script>
+let count = 0;
+const box = document.getElementById("container");
+const container = document.getElementById("box");
+const inbox = document.getElementById("inner-container");
+function startLoader() {
+  box.innerHTML = count + "%";
+  nextLoader();
+}
+function nextLoader() {
+  inbox.style.width = count * 2 + "px";
+  if (count < 98) {
+    count++;
+    setTimeout(startLoader, 100);
+  } else {
+    container.style.opacity = "100";
+  }
+}
+
+</script>
