@@ -48,6 +48,37 @@
        
       </ul>
     </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-users"></i>
+            <span>Staff Management</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+        </a>
+        <ul class="treeview-menu">
+         <li>   
+           <a href="{{route('admin.AllEmployees.index')}}">
+            <i class="fa fa-circle-o"></i> All Employees
+           </a>
+         </li>
+         <li>   
+            <a href="#">
+             <i class="fa fa-circle-o"></i> Leaves (Employees)
+            </a>
+          </li>
+          <li>   
+            <a href="#">
+             <i class="fa fa-circle-o"></i> Leave Types
+            </a>
+          </li>
+          <li>   
+            <a href="#">
+             <i class="fa fa-circle-o"></i> Department
+            </a>
+          </li>
+        </ul>
+    </li>
     
      <li class="treeview">
       <a href="#">

@@ -768,10 +768,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('collection-user-wise-tran', 'CashReportUserwiseController@index')->name('admin.CashReportUserwise.index');
     
     
+       /*staff managemnet*/
+      Route::get('add-employee', 'AllEmployeesController@addEmployeeForm')->name('admin.AllEmployees.addEmployeeForm'); // Add staff
+      Route::get('employees/{id}/edit', 'AllEmployeesController@editEmployeeDetails')->name('admin.AllEmployees.edit_employee');
+      Route::patch('update-employees/{id}', 'AllEmployeesController@updateEmployeeDetails')->name('admin.AllEmployees.update_employee');
+      Route::post('add-employee', 'AllEmployeesController@create')->name('admin.AllEmployees.add');
+      Route::get('all-employees',  'AllEmployeesController@index')->name('admin.AllEmployees.index'); // View staff (active/inactive)
+      Route::patch('staff-managemnt/{id}/status','AllEmployeesController@updateStatus'); // Update status
+ 
     
-    
-    
-    
+      
     
     
     
@@ -796,6 +802,7 @@ Route::get('/certificate', function () {
           'maturity_amount' => '60000',
           'interest_monthly' => '600',
           'maturity_date' => '10/12/2025',
+         
       ]
   ]);
 });
