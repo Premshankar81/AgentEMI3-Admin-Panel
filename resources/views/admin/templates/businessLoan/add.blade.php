@@ -35,32 +35,26 @@
             <div class="form-group">
                 <label class="col-sm-4">Customer's Name <span class="requiredfield">*</span></label>
                 <div class="col-sm-7">
-                    <select id="customer_id" name="customer_id" class="form-control" required onchange="get_MemberInfo()">
-                        <option value="">Select Customer</option>
-                        @foreach($Members as $key => $Member)
-                            <option data-closing_balance="{{$Member['closing_balance']}}"  value="{{$Member['id']}}">{{$Member['name']}}</option>    
-                        @endforeach
-                    </select>
+                    <input class="form-control" id="customer_name" name="customer_name" type="text" >
                 </div>
             </div>
 
           <div class="form-group">
               <label class="col-sm-4 control-label">Address</label>
               <div class="col-sm-7">
-                 <div id="memberdetail" style="border:1px solid #ccc;padding: 6px 12px;height:110px;">
-                                    </div>
+                <textarea class="form-control" rows="4" id="customer_address" name="customer_address" required></textarea>
               </div>
           </div>
 
         <div class="form-group">
             <label class="col-sm-4 control-label">Agent's Name <span class="requiredfield">*</span></label>
             <div class="col-sm-7">
-                <select id="agent_id" name="agent_id" class="form-control selectpicker" required>
-                  <option value="">Select Agent's Name </option>
-                  @foreach($agents as $key => $agent)
-                      <option  value="{{$agent['id']}}">{{$agent['name']}}-{{$agent['agent_code']}}</option>    
-                  @endforeach
-              </select>
+                <select class="form-control" id="employee_name" name="employee_name">
+                    <option value="" disabled selected>Select Employee</option>
+                    @foreach($employees as $employee)
+                      <option value="{{ $employee->id }}">{{ $employee->employee_name }}</option>
+                    @endforeach
+                  </select>
             </div>
         </div>
 
@@ -92,7 +86,7 @@
           <div class="form-group">
               <label class="col-sm-4 control-label">Scheme Info</label>
               <div class="col-sm-7">
-                 <div id="schemedetail" style="border:1px solid #ccc;padding: 6px 12px;height:110px;"></div>
+                <textarea class="form-control" rows="4" id="scheme_info" name="scheme_info" required></textarea>
               </div>
           </div>
 
@@ -117,7 +111,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label" id="TenureCaption">Tenure (No of EMIs)<span class="requiredfield">*</span></label>
             <div class="col-sm-7">
-                <input class="form-control" id="tenure" name="tenure" type="text" required>
+                <input class="form-control" id="tenure" name="tenure" type="number" required>
             
             </div>
         </div>
@@ -153,7 +147,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">Amount of loan Requested</label>
             <div class="col-sm-7">
-                <input class="form-control" id="loan_amount_requested" name="loan_amount_requested" type="text" >
+                <input class="form-control" id="loan_amount_requested" name="loan_amount_requested" type="number" >
             </div>
         </div>
 
@@ -191,24 +185,14 @@
          <div class="form-group">
               <label class="col-sm-4">First Guaranter's Name</label>
               <div class="col-sm-7">
-                   <select id="guaranter_first" name="guaranter_first" class="form-control selectpicker">
-                      <option value="">Select Guaranter's Name </option>
-                      @foreach($Members as $key => $Member)
-                        <option  value="{{$Member['id']}}">{{$Member['name']}}</option>    
-                      @endforeach
-                  </select>
-              </div>
+                <input class="form-control" id="guaranter_first_name" name="guaranter_first_name" type="text" >
+            </div>
           </div>
 
           <div class="form-group">
               <label class="col-sm-4">Second Guaranter's Name</label>
               <div class="col-sm-7">
-                   <select id="guaranter_second" name="guaranter_second" class="form-control selectpicker">
-                      <option value="">Select Guaranter's Name </option>
-                      @foreach($Members as $key => $Member)
-                        <option  value="{{$Member['id']}}">{{$Member['name']}}</option>    
-                      @endforeach
-                  </select>
+                <input class="form-control" id="guaranter_second_name" name="guaranter_second_name" type="text" >    
               </div>
           </div>
 

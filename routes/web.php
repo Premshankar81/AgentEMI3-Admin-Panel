@@ -233,6 +233,18 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('ledger-export', 'LedgerController@export')->name('admin.ledger.export');
     Route::post('ledger-delete', 'LedgerController@delete_row')->name('admin.ledger.delete');
 
+     /*daybook*/
+     Route::get('ledger-daybook', 'LedgerDaybookController@index')->name('admin.ledger.daybook.index');
+     Route::post('ledger-daybook', 'LedgerDaybookController@store')->name('admin.ledger.daybook.store');
+     Route::get('ledger-daybok-list', 'LedgerDaybookController@list')->name('admin.ledger.daybook.list');
+     Route::post('ledger-daybook-get', 'LedgerDaybookController@get_row')->name('admin.ledger.daybook.get');
+     Route::post('ledger-daybook-update/{id}', 'LedgerDaybookController@update_row')->name('admin.ledger.daybook.update');
+     Route::get('ledger-daybook-export', 'LedgerDaybookController@export')->name('admin.ledger.daybook.export');
+     Route::post('ledger-daybook-delete', 'LedgerDaybookController@delete_row')->name('admin.ledger.daybook.delete');
+     Route::get('ledger-cashbook', 'LedgerDaybookController@showCashbook')->name('admin.ledger.cashbook.index');
+     Route::get('ledger/daybook/{id}', 'LedgerDaybookController@getDaybookDataByID')->name('admin.ledger.daybook.get.entry');
+
+  
     /*ledger_group*/
     Route::get('ledger_group', 'LedgerGroupController@index')->name('admin.ledger_group.index');
     Route::post('ledger_group', 'LedgerGroupController@store')->name('admin.ledger_group.store');
@@ -715,14 +727,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('pending-voucher', 'PendingVoucherEntryController@index')->name('admin.pending-voucher.index-pending');
     Route::get('pending-voucher-list-pending', 'PendingVoucherEntryController@listPending')->name('admin.pending-application.list-pending');
 
-    Route::get('paymentCollectDeposit', 'PaymentCollectDepositController@index')->name('admin.paymentCollectDeposit.index');
-    Route::get('paymentCollectDeposit-pending', 'PaymentCollectDepositController@listPending')->name('admin.paymentCollectDeposit.list-pending');
+    Route::get('totalLoanCollections', 'TotalLoanCollectionsController@index')->name('admin.totalLoanCollections.index');
+    Route::get('totalLoanCollections-pending', 'TotalLoanCollectionsController@listPending')->name('admin.totalLoanCollections.list-pending');
 
     Route::get('paymentCollectLoan', 'PaymentCollectLoanController@index')->name('admin.paymentCollectLoan.index');
     Route::get('paymentCollectLoan-pending', 'PaymentCollectLoanController@listPending')->name('admin.paymentCollectLoan.list-pending');    
 
-    Route::get('paymentCollect', 'PaymentCollectController@index')->name('admin.paymentCollect.index');
-    Route::get('paymentCollect-pending', 'PaymentCollectController@listPending')->name('admin.paymentCollect.list-pending');    
+    Route::get('paymentCollect', 'TotalPendingInstallmentController@index')->name('admin.paymentCollect.index');
+    Route::get('paymentCollect-pending', 'TotalPendingInstallmentController@listPending')->name('admin.paymentCollect.list-pending');    
 
     Route::get('ProfitnLoss', 'ReportsController@ProfitnLoss_Index')->name('admin.reportsProfitnLoss.index');
     Route::get('BalanceSheet', 'ReportsController@BalanceSheet_Index')->name('admin.reportsBalanceSheet.index');
@@ -774,15 +786,26 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
       Route::patch('update-employees/{id}', 'AllEmployeesController@updateEmployeeDetails')->name('admin.AllEmployees.update_employee');
       Route::post('add-employee', 'AllEmployeesController@create')->name('admin.AllEmployees.add');
       Route::get('all-employees',  'AllEmployeesController@index')->name('admin.AllEmployees.index'); // View staff (active/inactive)
+      Route::get('inactive-employees-list',  'AllEmployeesController@inactiveEmployees')->name('admin.AllInactiveEmployees.index');
       Route::patch('staff-managemnt/{id}/status','AllEmployeesController@updateStatus'); // Update status
- 
-    
+      Route::patch('delete-employees/{id}', 'AllEmployeesController@deleteEmployeeDetails')->name('admin.AllEmployees.delete_employee');
+      Route::get('leave-types',  'AllEmployeesController@leaveTypes')->name('admin.leaveTypes');
+      Route::post('add-leave-types',  'AllEmployeesController@addLeaveTypes')->name('admin.leaveTypes.add');
+      Route::get('employees-applyed-leaves',  'AllEmployeesController@showEmployeesLeaves')->name('admin.employees.leaves.index');
+      Route::patch('employee-leave/{id}/status', 'AllEmployeesController@updateEmployeeStatus')->name('admin.employee.leave.update.status');
+      
       
     
-    
-    
+      /*staff taget managemnet*/
+      Route::get('employees-targets', 'EmployeesTargetController@viewEmployeeTarget')->name('admin.AllEmployees.target'); 
+      Route::get('add-employee-targets', 'EmployeesTargetController@viewEmployeeTargetForm')->name('admin.AllEmployees.target.add.form');
+      Route::post('store-employee-targets', 'EmployeesTargetController@addEmployeeTarget')->name('admin.AllEmployees.target.add');
+      Route::get('employees-insentive', 'EmployeesTargetController@viewEmployeeInsentive')->name('admin.AllEmployees.insentive'); 
+      Route::get('get-employees-list', 'EmployeesTargetController@getEmployeesList')->name('get.employees.list');
+      Route::get('get-complete-targets', 'EmployeesTargetController@getCompleteTargets')->name('get.employees.completed.targets');
+      Route::post('add-incentive', 'EmployeesTargetController@addIncentive')->name('add.total.employee.incentive');
 
-
+  
     
 });
 

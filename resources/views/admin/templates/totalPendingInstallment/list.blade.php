@@ -26,37 +26,38 @@
             </div>
 
             <div class="box-body">
-              <!-- Add a scrollable container -->
+                <!-- Add a scrollable container -->
               <div style="overflow-x:auto;width:100%">
-              <table id="dataTables_table_init" class="table table-bordered table-striped" style="width: 150%;">
+              <table id="dataTables_table_init" class="table table-bordered table-striped" style="width: 120%">
                 <thead>
                   <tr>
-                    <th style="width: 7%;">Sr. No.</th>
-                    <th style="width: 7%;">Loan ID</th>
-                    <th style="width: 9%;">Agent Name</th>
-                    <th style="width: 9%;">Customer Name</th>
-                    <th style="width: 9%;">Customer Mobile</th>
-                    <th style="width: 9%;">Loan Amount</th>
-                    <th style="width: 9%;">Demand Amount</th>
-                    <th style="width: 10%;">Outstanding Amount</th>
-                    <th style="width: 12%;">Address</th>
-                    <th style="width: 12%;">EMI Payout</th>
-                    <th style="width: 7%;">Action</th>
+                    <th>Sr. No.</th>
+                    <th>Loan ID</th>
+                    <th>Agent Name</th>
+                    <th>Agent ID</th>
+                    <th>Customer Name</th>
+                    <th>Customer Mobile</th>
+                    <th>Pending Amount</th>
+                    <th>Late Fine</th>
+                    <th>Emi Payout</th>
+                    <th>Date</th>
+                    <th>Address</th>
                   </tr>
                 </thead>
-                <tbody >
-                  @foreach($data['demandSheet'] as $loan)
+                <tbody>
+                  @foreach($data['totalPendingInstallment'] as $loan)
                   <tr>
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $loan->loan_id }}</td>
                       <td>{{ $loan->agent_name }}</td>
+                      <td>{{ $loan->agent_id }}</td>
                       <td>{{ $loan->customer_name }}</td>
                       <td>{{ $loan->customer_mobile }}</td>
-                      <td>{{ $loan->principal_amount }}</td>
-                      <td>{{ $loan->installment_amount }}</td>
-                      <td>{{ $loan->outstanding_balance }}</td>
-                      <td>{{ $loan->customer_address }}</td>
+                      <td>{{ $loan->amount }}</td>
+                      <td>{{ $loan->late_fine }}</td>
                       <td>{{ $loan->emi_payout }}</td>
+                      <td>{{ $loan->date_time }}</td>
+                      <td>{{ $loan->address }}</td>
                      
                   </tr>
                   @endforeach

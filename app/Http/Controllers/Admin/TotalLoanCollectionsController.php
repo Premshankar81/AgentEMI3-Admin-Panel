@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TransationHistory;
 use App\Models\SavingAccount;
 use App\Models\User;
+use App\Models\TotalLoanCollection;
 use App\Models\RecurringDepositEmi;
 use Excel;
 use App\Exports\CategoryExport;
@@ -15,12 +16,17 @@ use Helper;
 use DB;
 
 
-class PaymentCollectDepositController extends Controller
+class TotalLoanCollectionsController extends Controller
 {
     public function index()
+
     {
-        $data['page_title'] = 'PAYMENT TO COLLECT (Deposit)';
-        return view('admin.templates.paymentCollectDeposit.paymentCollectDeposit',compact('data'));
+        $totalLoanCollection = TotalLoanCollection::where('status', 'collected')->get();
+        $data = [
+            'page_title' => 'Total Loan Collections',
+            'totalLoanCollections' => $totalLoanCollection
+        ];
+        return view('admin.templates.totalLoanCollections.paymentCollectDeposit',compact('data'));
     }
 
     function listPending()

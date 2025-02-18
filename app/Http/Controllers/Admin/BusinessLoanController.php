@@ -12,6 +12,8 @@ use App\Models\Admin;
 use App\Models\TransationHistory;
 use App\Models\Ledger;
 use App\Models\BusinessLoan;
+use App\Models\ActiveLoan;
+use App\Models\Employees;
 use Excel;
 use Auth;
 use Helper;
@@ -35,7 +37,11 @@ class BusinessLoanController extends Controller
         $Ledgers = Helper::get_ledgers();
         $banks = Helper::getBank();
         $agents = Helper::getAgents();
-        return view('admin.templates.businessLoan.businessLoan',compact('data','agents','Members','loan_schemes','Ledgers','banks'));
+        $employees = Employees::where('status', 'active')->select('id', 'employee_name')->get();
+        // Log the active employees
+         // Log::info('Active Employees:', $employees->toArray());
+        
+        return view('admin.templates.businessLoan.businessLoan',compact('data','agents','Members','loan_schemes','Ledgers','banks','employees'));
 
     }
 
@@ -164,7 +170,11 @@ class BusinessLoanController extends Controller
     public function businessLoanApproved_Index()
     {
        
-        $data['page_title'] = 'Business Loan Application for Disbursement';
+        $activeLoans = ActiveLoan::where('delete_status', '0')->get();
+        $data = [
+            'page_title' => 'Business Loan Application for Disbursement',
+            'activeLoans' => $activeLoans
+        ];
         return view('admin.templates.businessLoanApproved.businessLoanApproved',compact('data'));
     }
 

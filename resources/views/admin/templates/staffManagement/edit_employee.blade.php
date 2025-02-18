@@ -70,6 +70,42 @@
           </div>
       </div> 
       <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Father Mobile No.<span class="requiredfield">*</span></label>
+            <div class="col-sm-8">
+                <input class="form-control" id="father_no" maxlength="20" name="father_no" type="number"  value="{{ $data['employee']->father_no }}">
+                
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Bank Account No.<span class="requiredfield">*</span></label>
+            <div class="col-sm-8">
+                <input class="form-control" id="account_no" maxlength="20" name="account_no" type="number"  value="{{ $data['employee']->account_no }}">
+                
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">IFSC Code<span class="requiredfield">*</span></label>
+            <div class="col-sm-8">
+                <input class="form-control" id="ifsc_code" maxlength="20" name="ifsc_code" type="text"  value="{{ $data['employee']->ifsc_code }}">
+                
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Branch Name<span class="requiredfield">*</span></label>
+            <div class="col-sm-8">
+                <input class="form-control" id="branch_name" maxlength="20" name="branch_name" type="text"  value="{{ $data['employee']->branch_name }}">
+                
+            </div>
+        </div>
+    </div> 
+      <div class="col-md-6">
         <div class="form-group ">
           <label class="col-sm-4 control-label">Joining Date <span class="requiredfield">*</span></label>
           <div class="col-sm-8">

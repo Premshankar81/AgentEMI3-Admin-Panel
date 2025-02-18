@@ -45,7 +45,7 @@ class ApiControllers extends Controller
             
             $mailStatus = Mail::send('mail.expense_mail', compact('result'), function($message) use ($result,$emails) {
                 $message->to($emails, $result['first_name'] . ' ' . $result['last_name'])->subject('Welcome email ');
-                $message->attach($result['excel_path']);
+                // $message->attach($result['excel_path']);
           
         });
         return 5;
@@ -55,20 +55,27 @@ class ApiControllers extends Controller
     
       public function userlogin(Request $oRequest)
     {
-        $user = Admin::where(['mobile' => $oRequest->mobile])->first();
-        if($user){
-            if (!Hash::check($oRequest->password, $user['password'])) {
-                return response()->json(['status' => 1, 'message' => 'Wrong password provided'], 403);
-            } 
-                Admin::where('mobile',$oRequest->mobile)->update([
-                  'token_id' => $oRequest->token_id,
-                ]);
-            $update_user = Admin::where(['mobile' => $oRequest->mobile])->first();
-            return response()->json(['status' => 0,'message' => 'Successful login','data'=>$update_user], 200);
-        }else{
+        // $user = Admin::where(['mobile' => $oRequest->mobile])->first();
+        // if($user){
+        //     if (!Hash::check($oRequest->password, $user['password'])) {
+        //         return response()->json(['status' => 1, 'message' => 'Wrong password provided'], 403);
+        //     } 
+        //         Admin::where('mobile',$oRequest->mobile)->update([
+        //           'token_id' => $oRequest->token_id,
+        //         ]);
+        //     $update_user = Admin::where(['mobile' => $oRequest->mobile])->first();
+        //     return response()->json(['status' => 0,'message' => 'Successful login','data'=>$update_user], 200);
+        // }else{
             
-        }
-        return response()->json(['status' => 1,'message' => 'Invalid mobile'], 200);
+        // }
+        // return response()->json(['status' => 1,'message' => 'Invalid mobile'], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'API working!',
+            'status_code' => 200,
+            'data' => []
+        ], 200);
+    
     }
     
     public function profileDetails(Request $oRequest)

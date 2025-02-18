@@ -14,7 +14,7 @@ class LedgerController extends Controller
 {
   
     public function index()
-    {
+   {
         
         $data['page_title'] = 'Ledger Master';
         $rows = Ledger::where('delete_status','0')->get();

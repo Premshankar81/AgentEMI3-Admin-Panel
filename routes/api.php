@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Admin\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::get('test', 'Api\ApiControllers@index')->name('test');        
+Route::get('test', 'Api\ApiControllers@test')->name('test');        
 
 
 Route::post('userlogin', 'Api\ApiControllers@userlogin')->name('userlogin');
@@ -55,6 +57,12 @@ Route::post('get_agent_profile', 'Api\ApiControllers@get_agent_profile')->name('
 Route::post('add_member', 'Api\ApiControllers@add_member')->name('add_member');
 
 Route::post('get_PaymentCollectionLoan', 'Api\ApiControllers@get_PaymentCollectionLoan')->name('get_PaymentCollectionLoan');
+
+// apply employees leave
+Route::post('employee-apply-leave', 'Admin\AllEmployeesController@applyLeave')->name('admin.employee.applyLeave');
+Route::post('add-member', 'Admin\MemberController@store')->name('admin.add.member');
+
+
 
 
 

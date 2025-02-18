@@ -59,16 +59,22 @@
         <ul class="treeview-menu">
          <li>   
            <a href="{{route('admin.AllEmployees.index')}}">
-            <i class="fa fa-circle-o"></i> All Employees
+            <i class="fa fa-circle-o"></i> All Active Employees
            </a>
          </li>
          <li>   
-            <a href="#">
+            <a href="{{route('admin.AllInactiveEmployees.index')}}">
+             <i class="fa fa-circle-o"></i> All Inactive Employees
+            </a>
+          </li>
+
+         <li>     
+            <a href="{{route('admin.employees.leaves.index')}}">
              <i class="fa fa-circle-o"></i> Leaves (Employees)
             </a>
           </li>
           <li>   
-            <a href="#">
+            <a href="{{route('admin.leaveTypes')}}">
              <i class="fa fa-circle-o"></i> Leave Types
             </a>
           </li>
@@ -78,6 +84,69 @@
             </a>
           </li>
         </ul>
+    </li>
+    
+     <li class="treeview">
+      <a href="#">
+        <i class="fa fa-table"></i>
+        <span>System Setting</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li>
+          <a href="{{route('admin.profileupdate.index')}}">
+            <i class="fa fa-circle-o"></i> Profile / Business Update </a>
+        </li>
+       
+      </ul>
+    </li>
+
+    
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-bullseye"></i>
+            <span>Staff Target Management</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+        </a>
+        <ul class="treeview-menu">
+         <li>   
+           <a href="{{route('admin.AllEmployees.target')}}">
+            <i class="fa fa-circle-o"></i> Employees Target
+           </a>
+         </li>
+         <li>   
+            <a href="{{route('admin.AllEmployees.insentive')}}">
+             <i class="fa fa-circle-o"></i> Commission Calculation
+            </a>
+          </li>
+
+         <li>     
+            <a href="#">
+             <i class="fa fa-circle-o"></i> Reports and Analytics
+            </a>
+          </li>
+        </ul>
+    </li>
+    
+     <li class="treeview">
+      <a href="#">
+        <i class="fa fa-table"></i>
+        <span>System Setting</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li>
+          <a href="{{route('admin.profileupdate.index')}}">
+            <i class="fa fa-circle-o"></i> Profile / Business Update </a>
+        </li>
+       
+      </ul>
     </li>
     
      <li class="treeview">
@@ -186,6 +255,14 @@
         </span>
       </a>
       <ul class="treeview-menu">
+        <li>
+          <a href="{{route('admin.ledger.daybook.index')}}">
+            <i class="fa fa-circle-o"></i> Daybook </a>
+        </li>
+        <li>
+          <a href="{{route('admin.ledger.cashbook.index')}}">
+            <i class="fa fa-circle-o"></i>Cashbook </a>
+        </li>
         <li>
           <a href="{{route('admin.ledger_group.index')}}">
             <i class="fa fa-circle-o"></i> Ledger Group </a>
@@ -377,12 +454,12 @@
         <ul class="treeview-menu" style="display: none;">
                 <li class="" id="submenu_97">
                     <a href="{{route('admin.paymentCollect.index')}}" target="_self">
-                        <i class=""></i> <span>Payment to Collect(Combined)</span>
+                        <i class=""></i> <span>Total Pending Amount</span>
                     </a>
                 </li>
                 <li class="" id="submenu_98">
-                    <a href="{{route('admin.paymentCollectDeposit.index')}}" target="_self">
-                        <i class=""></i> <span>Payment to Collect(Deposit)</span>
+                    <a href="{{route('admin.totalLoanCollections.index')}}" target="_self">
+                        <i class=""></i> <span>Total Loan Collections</span>
                     </a>
                 </li>
                 <li class="" id="submenu_99">

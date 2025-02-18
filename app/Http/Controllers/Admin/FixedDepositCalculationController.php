@@ -26,10 +26,11 @@ class FixedDepositCalculationController extends Controller
         $Final_MaturityDate    = '';
 
         $rdCalcualtionArr = array();
-        if($oRequest->rd_frequency == 'monthly'){
+        if($oRequest->fd_frequency == 'monthly'){
             if($oRequest->fd_tenure != ''){
 
                     $OpeningDate = Carbon::parse($oRequest->opening_date)->format('d-m-Y');
+                    $FDDate = $OpeningDate;
                     $FDAmount = $oRequest->fd_amount; // Initial principal
                     $MonthlyRate = $oRequest->interest_rate/12/100; // monthly interest rate
                     $FDTenure = $oRequest->fd_tenure; // fd tenure in months
@@ -41,14 +42,13 @@ class FixedDepositCalculationController extends Controller
                     $interest = $FDAmount*$MonthlyRate;
                     $Final_InterestEarned += $interest;
                     $Final_MaturityAmount += $interest;
-                    $FDDate        =  Carbon::parse($oRequest->opening_date)->addMonth($i)->format('d-m-Y');
                     $rdCalcualtionObj['fd_date']                    =  $FDDate;
                     $rdCalcualtionObj['serial_no']                  =   $i;
                     $rdCalcualtionObj['total_amount']               =  $oRequest->fd_amount;
                     $rdCalcualtionObj['interest']                   = round($Final_InterestEarned,2);
                     $rdCalcualtionObj['maturity_amount']            = round($Final_MaturityAmount,2);
                     $rdCalcualtionArr[]                             = $rdCalcualtionObj;
-                  
+                    $FDDate        =  Carbon::parse($oRequest->opening_date)->addMonth($i)->format('d-m-Y');
                     $Final_MaturityDate   = $FDDate;
                 }
               
@@ -78,7 +78,6 @@ class FixedDepositCalculationController extends Controller
                 $rdCalcualtionObj['interest']                   = round($Final_InterestEarned,2);
                 $rdCalcualtionObj['maturity_amount']            = round($Final_MaturityAmount,2);
                 $rdCalcualtionArr[]                             = $rdCalcualtionObj;
-              
                 $Final_MaturityDate   = $FDDate;
             }
           

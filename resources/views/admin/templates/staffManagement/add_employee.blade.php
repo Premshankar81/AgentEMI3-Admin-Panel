@@ -86,7 +86,40 @@
           </div>
        </div>
       </div>
-    
+      <div class="col-md-6">
+        <div class="form-group ">
+          <label class="col-sm-4 control-label">Father's Mobile No. <span class="requiredfield">*</span></label>
+          <div class="col-sm-8">
+                <input class="form-control" id="father_no" name="father_no" type="number" required>       
+          </div>
+       </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group ">
+          <label class="col-sm-4 control-label">Bank Account No. <span class="requiredfield">*</span></label>
+          <div class="col-sm-8">
+                <input class="form-control" id="account_no" name="account_no" type="number" required> 
+             
+          </div>
+       </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group ">
+          <label class="col-sm-4 control-label">IFSC Code<span class="requiredfield">*</span></label>
+          <div class="col-sm-8">
+                <input class="form-control" id="ifsc_code" name="ifsc_code" type="text" required> 
+          </div>
+       </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group ">
+          <label class="col-sm-4 control-label">Branch Name<span class="requiredfield">*</span></label>
+          <div class="col-sm-8">
+                <input class="form-control" id="branch_name" name="branch_name" type="text" required> 
+          </div>
+       </div>
+      </div>
             </div>
         </div>
               
@@ -99,8 +132,6 @@
                   </div>
                 </div>
               </div>
-  
-  
             </div>
             <div class="tab-pane" id="timeline"></div>
           </div>

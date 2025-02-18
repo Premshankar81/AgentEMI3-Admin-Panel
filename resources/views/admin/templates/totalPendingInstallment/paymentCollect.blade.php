@@ -6,7 +6,7 @@
 
     @section('content')
             
-        @include('admin.templates.paymentCollect.list')
+        @include('admin.templates.totalPendingInstallment.list')
 
     @endsection
 

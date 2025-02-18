@@ -6,7 +6,7 @@
 
     @section('content')
             
-        @include('admin.templates.paymentCollectDeposit.list')
+        @include('admin.templates.totalLoanCollections.list')
 
     @endsection
 
@@ -17,7 +17,7 @@
 get_records()
 function get_records()
 {
-  var API_URL = "{{ route('admin.paymentCollectDeposit.list-pending') }}";
+  var API_URL = "{{ route('admin.totalLoanCollections.list-pending') }}";
     $.ajax({
      url: API_URL,
      method: 'get',

@@ -29,20 +29,30 @@
               <table id="dataTables_table_init" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Account No</th>
-                    <th>Agent Code</th>
+                    <th>Sr. No.</th>
+                    <th>Loan ID</th>
+                    <th>Agent Name</th>
+                    <th>Agent ID</th>
                     <th>Customer Name</th>
                     <th>Customer Mobile</th>
-                    <th>Account Type</th>
-                    <th>No of EMI</th>
-                    <th>Due Amount</th>
-                    <th>Penalty</th>
-                    <th>Total Due Amount</th>
-                    <th>Action</th>
+                    <th>Collected Amount</th>
+                    <th>Address</th>
                   </tr>
                 </thead>
-                <tbody id="TableRecordList">
-                  
+                <tbody>
+                  @foreach($data['totalLoanCollections'] as $loan)
+                  <tr>
+                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ $loan->loan_id }}</td>
+                      <td>{{ $loan->agent_name }}</td>
+                      <td>{{ $loan->agent_id }}</td>
+                      <td>{{ $loan->customer_name }}</td>
+                      <td>{{ $loan->customer_mobile }}</td>
+                      <td>{{ $loan->amount }}</td>
+                      <td>{{ $loan->address }}</td>
+                     
+                  </tr>
+                  @endforeach
                 </tbody>
                 
               </table>
