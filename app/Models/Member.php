@@ -9,7 +9,7 @@ class Member extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'gender', 'mobile_no', 'alternate_mobile_no', 'email', 
+        'name', 'gender', 'mobile_no', 'alternate_mobile_no', 'email', 'dob','age','enrollment_date','agent_name','father_name','latitude','longitude',
         'relative_relation', 'mother_name', 'religion', 'member_cast', 
         'adhar_card_no', 'pan', 'voter_id_no', 'ration_card_no', 
         'driving_license_no', 'passport_no', 'class_id',

@@ -161,7 +161,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::post('class-delete', 'ClassesController@delete_row')->name('admin.class.delete');
     
     
-    /*Category*/
+    /*Customer*/
     Route::get('customer', 'CustomerController@index')->name('admin.customer.index');
     Route::get('customer-create', 'CustomerController@create')->name('admin.customer.create');
     Route::post('customer-store', 'CustomerController@store_record')->name('admin.customer.store');
@@ -804,6 +804,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
       Route::get('get-employees-list', 'EmployeesTargetController@getEmployeesList')->name('get.employees.list');
       Route::get('get-complete-targets', 'EmployeesTargetController@getCompleteTargets')->name('get.employees.completed.targets');
       Route::post('add-incentive', 'EmployeesTargetController@addIncentive')->name('add.total.employee.incentive');
+
+      Route::post('add-member', 'MemberController@store')->name('admin.add.member');
 
   
     

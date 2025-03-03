@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use App\Models\Member;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\Models\TransationHistory;
 use Excel;
 use App\Exports\CustomerExport;
@@ -16,10 +20,15 @@ class CustomerController extends Controller
   
     public function index()
     {
-        $data['page_title'] = 'Customer';
-        $NewCustomerCode =  Helper::get_Customer_number();
+       
+        $members = Member::where('delete_status', '0')->get();
+        $data = [
+            'page_title' => 'Customer',
+            'members' => $members,
+            ];
+            Log::info('Incoming Request Data:', $members->all());
         
-        return view('admin.templates.customer.customer',compact('data','NewCustomerCode'));
+        return view('admin.templates.customer.customer',compact('data'));
     }
 
     public function create()
@@ -32,29 +41,122 @@ class CustomerController extends Controller
         return view('admin.templates.customer.customer',compact('data','NewCustomerCode','Classes','Ledgers','banks'));
     }
 
-    function store_record(Request $oRequest)
+    public function store_record(Request $request)
     {
-       
-        $oRequest->offsetSet('created_by',Auth::guard('admin')->user()->id);
-        $oRequest->offsetSet('customer_id',Helper::generate_uuid());
+        // Log the incoming request data
+        Log::info('Incoming Request Data:', $request->all());
 
-        $NewCustomerCode =  Helper::get_Customer_number();
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'gender' => 'nullable|string|max:10',
+            'mobile_no' => 'required|string|max:15',
+            'alternate_no' => 'nullable|string|max:15',
+            'email' => 'nullable|email|unique:members',
+            'dob' => 'nullable|date',
+            'age' => 'nullable|integer',
+            'joining_date' => 'nullable|date',
+            'relative_relation' => 'nullable|string|max:255',
+            'relative_name' => 'nullable|string|max:255',
+            'mother_Name' => 'nullable|string|max:255',
+            'religion' => 'nullable|string|max:255',
+            'member_cast' => 'nullable|string|max:255',
+            'adhar_card_no' => 'nullable|string|max:20',
+            'pan_no' => 'nullable|string|max:10',
+            'voter_id_no' => 'nullable|string|max:20',
+            'ration_card_no' => 'nullable|string|max:20',
+            'driving_license_no' => 'nullable|string|max:20',
+            'passport_no' => 'nullable|string|max:20',
+            'class_id' => 'nullable|integer',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'allocate_share_payment_mode' => 'nullable|string|max:50',
+            'member_ship_payment_mode' => 'nullable|string|max:50',
 
-        $oRequest->offsetSet('customer_code',$NewCustomerCode['customer_code']);
-        $oRequest->offsetSet('folio_code',$NewCustomerCode['folio_code']);
+            // File validation
+            'passport_document' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'adhar_card_document' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'driving_license_document' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'ration_card_document' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'electricity_bill_document' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'passport_photograph' => 'nullable|file|mimes:jpg,png|max:2048',
+            'signature' => 'nullable|file|mimes:jpg,png|max:1024',
+            'voter_id_document' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'bank_statement' => 'nullable|file|mimes:pdf|max:2048',
+        ]);
 
-        $checkExist = User::where('delete_status','0')->where('customer_code',$oRequest->customer_code)->first();
-        if ($checkExist){
-            return response()->json(array('status' => 2,'msg'=> 'This customer already added'));
-        }else{
+        // If validation fails, return with errors
+        if ($validator->fails()) {
+            Log::error('Validation Failed:', $validator->errors()->toArray());
+            return back()->withErrors($validator)->withInput();
+        }
 
-	        $addResult = User::create($oRequest->all());
-	        if($addResult){
-	        	return response()->json(array('status' => 1,'msg'=>'Record successfully Inserted'));
-	    	}else{ 
-	                return response()->json(array('status' => 0,'msg'=>'Error'));
-	        }
-    	}
+        // Get validated data
+        $validated = $validator->validated();
+
+        // Handle file uploads and store paths
+        $uploadFields = [
+            'passport_document', 'adhar_card_document', 'driving_license_document',
+            'ration_card_document', 'electricity_bill_document', 'passport_photograph',
+            'signature', 'voter_id_document', 'bank_statement'
+        ];
+        
+        foreach ($uploadFields as $field) {
+            if ($request->hasFile($field)) {
+                $validated[$field] = $request->file($field)->store('documents', 'public');
+            }
+        }
+
+        // Insert data into the database
+        try {
+            DB::beginTransaction();
+
+            $member = Member::create($validated);
+
+            DB::commit();
+            Log::info('Member Created:', [$member]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error Inserting Member:', ['error' => $e->getMessage()]);
+            return back()->withErrors(['error' => 'Failed to insert data.'])->withInput();
+        }
+
+        // Fetch updated member list
+        $members = Member::where('delete_status', '0')->get();
+
+        // Prepare data for the view
+        $data = [
+            'page_title' => 'Customer',
+            'members' => $members,
+        ];
+        Log::info('Fetched Members:', $members->toArray());
+
+        return view('admin.templates.customer.customer', compact('data'));
+    
+
+
+        // Log::info('Request Data:', $oRequest->all());
+        // $oRequest->offsetSet('created_by',Auth::guard('admin')->user()->id);
+        // $oRequest->offsetSet('customer_id',Helper::generate_uuid());
+
+        // $NewCustomerCode =  Helper::get_Customer_number();
+
+        // $oRequest->offsetSet('customer_code',$NewCustomerCode['customer_code']);
+        // $oRequest->offsetSet('folio_code',$NewCustomerCode['folio_code']);
+
+        // $checkExist = User::where('delete_status','0')->where('customer_code',$oRequest->customer_code)->first();
+        // if ($checkExist){
+        //     return response()->json(array('status' => 2,'msg'=> 'This customer already added'));
+        // }else{
+
+	    //     $addResult = User::create($oRequest->all());
+	    //     if($addResult){
+	    //     	return response()->json(array('status' => 1,'msg'=>'Record successfully Inserted'));
+	    // 	}else{ 
+	    //             return response()->json(array('status' => 0,'msg'=>'Error'));
+	    //     }
+    	// }
     }
     
     function list()

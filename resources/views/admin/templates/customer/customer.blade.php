@@ -44,6 +44,10 @@
             @include('admin.templates.customer.list')
         @endif
 
+        @if(Request::route()->getName() == 'admin.customer.store') 
+           @include('admin.templates.customer.list')
+        @endif
+
         @if(Request::route()->getName() == 'admin.customer.edit') 
             @include('admin.templates.customer.update')
         @endif
@@ -184,36 +188,36 @@ function add_member_ship(form)
   }
 
 
-function add_row(form)
-{
-     var formData = new FormData(form);
-     var API_URL = "{{ route('admin.customer.store') }}";
+// function add_row(form)
+// {
+//      var formData = new FormData(form);
+//      var API_URL = "{{ route('admin.customer.store') }}";
 
-        $.ajax({
-            url: API_URL,
-             type: 'POST',
-             data: formData,
-             async: false,
-             dataType: 'json',
-             contentType: false, 
-             processData: false, 
-             success: function (data)
-             {
-               if (data["status"] == 1){
-                    $('#add_form')[0].reset();
-                    $('#add_row_modal').modal('hide');
+//         $.ajax({
+//             url: API_URL,
+//              type: 'POST',
+//              data: formData,
+//              async: false,
+//              dataType: 'json',
+//              contentType: false, 
+//              processData: false, 
+//              success: function (data)
+//              {
+//                if (data["status"] == 1){
+//                     $('#add_form')[0].reset();
+//                     $('#add_row_modal').modal('hide');
 
-                    success_notification(data['msg'])
-                    get_records();
-               }else{
-                    error_notification(data['msg'])
-               }
-            },
-            error: function (data) {
-                alert('server unavailable');
-            }
-        });
-  }
+//                     success_notification(data['msg'])
+//                     get_records();
+//                }else{
+//                     error_notification(data['msg'])
+//                }
+//             },
+//             error: function (data) {
+//                 alert('server unavailable');
+//             }
+//         });
+//   }
 
     get_records()
     function get_records()

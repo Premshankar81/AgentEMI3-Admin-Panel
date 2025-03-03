@@ -11,6 +11,20 @@ use Illuminate\Support\Facades\Log;
     
 class MemberController extends Controller
 {
+
+    public function index(Request $request)
+    {
+    
+        $members = Member::where('delete_status', '0')->get();
+        $data = [
+            'page_title' => 'Customer List',
+            'members' => $members,
+            ];
+            Log::info('Incoming Request Data:', $members->all());
+    
+        // return view('admin.templates.staffManagement.all_employees',compact('data'));
+    }
+    
     public function store(Request $request)
     {
         try {
@@ -134,6 +148,9 @@ class MemberController extends Controller
             ], 500);
         }
     }
+
+
+    
     
     
 }

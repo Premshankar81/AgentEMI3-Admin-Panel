@@ -22,7 +22,6 @@ use App\Http\Controllers\Admin\MemberController;
 
 Route::get('test', 'Api\ApiControllers@test')->name('test');        
 
-
 Route::post('userlogin', 'Api\ApiControllers@userlogin')->name('userlogin');
 Route::post('profileDetails', 'Api\ApiControllers@profileDetails')->name('profileDetails');
 Route::post('updateProfile', 'Api\ApiControllers@updateProfile')->name('updateProfile');

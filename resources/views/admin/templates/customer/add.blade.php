@@ -13,13 +13,13 @@
   </ol>
 </section>
 <section class="content">
-  <form id="add_form" method="POST" name="add_form" >
+  <form id="add_form" method="POST" name="add_form"  action="{{ route('admin.customer.store') }}" >
     {{csrf_field()}}
   <div class="row">
     <div class="col-md-12">
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-          <li class="active">
+          <li class="">
             <a href="#memberinfo" data-toggle="tab" aria-expanded="true">Basic Detail</a>
           </li>
           <li class="">
@@ -135,7 +135,7 @@
                     </label>
                     <div class="col-sm-7">
                       <div class="mb-3">
-                        <input class="form-control" id="mobile" maxlength="10" name="mobile" type="number" autocomplete="off">
+                        <input class="form-control" id="mobile_no" maxlength="10" name="mobile_no" type="number" autocomplete="off">
                       </div>
                     </div>
                   </div>
@@ -145,7 +145,7 @@
                     <label class="col-sm-4 control-label">Alternate Mobile No </label>
                     <div class="col-sm-7">
                       <div class="mb-3">
-                        <input class="form-control" id="alternate_mobile" maxlength="15" name="alternate_mobile" type="number" autocomplete="off">
+                        <input class="form-control" id="alternate_no" maxlength="15" name="alternate_no" type="number" autocomplete="off">
                       </div>
                     </div>
                   </div>
@@ -207,7 +207,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Rating </label>
                         <div class="col-sm-7">
@@ -221,7 +221,7 @@
                         </div>
                     </div>
                 </div>
-                
+                 --}}
                 
                 <div class="col-md-6">
                   <div class="form-group">
@@ -279,7 +279,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">AADHAR No</label>
                     <div class="col-sm-7">
-                      <input class="form-control" id="aadharcard_no" maxlength="12" name="aadharcard_no" type="text" autocomplete="off">
+                      <input class="form-control" id="adhar_card_no" maxlength="12" name="adhar_card_no" type="text" autocomplete="off">
                       <span class="field-validation-valid" data-valmsg-for="AadharNo" data-valmsg-replace="true"></span>
                     </div>
                   </div>
@@ -288,7 +288,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">PAN</label>
                     <div class="col-sm-7">
-                      <input class="form-control" id="pan" maxlength="10" name="pan" onkeyup="this.value = this.value.toUpperCase();" type="text"  autocomplete="off">
+                      <input class="form-control" id="pan_no" maxlength="10" name="pan_no" onkeyup="this.value = this.value.toUpperCase();" type="text"  autocomplete="off">
                     </div>
                   </div>
                 </div>
