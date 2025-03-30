@@ -13,17 +13,18 @@
   </ol>
 </section>
 <section class="content">
-  <form id="add_form" method="POST" name="add_form"  action="{{ route('admin.customer.store') }}" >
+  <form id="add_form" method="POST" name="add_form"  action="{{ route('admin.customer.store.basicDetails') }}" >
     {{csrf_field()}}
+    <input type="hidden" name="member_id" id="member_id" value="" />
   <div class="row">
     <div class="col-md-12">
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-          <li class="">
+          <li class="active">
             <a href="#memberinfo" data-toggle="tab" aria-expanded="true">Basic Detail</a>
           </li>
           <li class="">
-            <a href="#" style="color:lightgray;cursor:initial;">Address</a>
+            <a href="" style="color:lightgray;cursor:initial;">Address</a>
           </li>
           <li class="">
             <a href="#" style="color:lightgray;cursor:initial;">Bank Detail</a>
@@ -37,6 +38,10 @@
           <li class="">
             <a href="#" style="color:lightgray;cursor:initial;">Nominee </a>
           </li>
+          <li class="">
+            <a href="#" style="color:lightgray;cursor:initial;">Upload Documents</a>
+          </li>
+        
         </ul>
         <div class="tab-content">
           <div class="tab-pane active" id="memberinfo">
@@ -49,7 +54,7 @@
                     <label class="col-sm-4 control-label">Enrollment Date <span class="requiredfield">*</span></label>
                     <div class="col-sm-7">
                       <div class="mb-3">
-                            <input type="date" id="joining_date" name="joining_date"  class="form-control" required />
+                            <input type="date" id="enrollment_date" name="enrollment_date"  class="form-control" required />
                         </div>
                     </div>
                   </div>
@@ -72,7 +77,7 @@
                             <option value="dr.">Dr.</option>
                           </select>
                         </div>
-                        <input class="form-control"id="name" maxlength="50" name="name" type="text" autocomplete="off">
+                        <input class="form-control"id="name" maxlength="50" name="name" type="text" autocomplete="off" >
                       </div>
                       
                     </div>
@@ -107,7 +112,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">Age</label>
                     <div class="col-sm-7">
-                      <input class="form-control" id="age" maxlength="100" name="age" type="text" value="" autocomplete="off">
+                      <input class="form-control" id="age" maxlength="100" name="age" type="text"  autocomplete="off" required>
                       <span class="field-validation-valid" data-valmsg-for="Age" data-valmsg-replace="true"></span>
                     </div>
                   </div>
@@ -117,7 +122,7 @@
                     <label class="col-sm-4 control-label">Marital Status <span class="requiredfield">*</span>
                     </label>
                     <div class="col-sm-7">
-                      <select class="form-control" id="marital_status" name="marital_status">
+                      <select class="form-control" id="marital_status" name="marital_status" required>
                         <option value="">select Marital Status</option>
                         <option value="married">Married</option>
                         <option value="unMarried">UnMarried</option>
@@ -135,7 +140,10 @@
                     </label>
                     <div class="col-sm-7">
                       <div class="mb-3">
-                        <input class="form-control" id="mobile_no" maxlength="10" name="mobile_no" type="number" autocomplete="off">
+                        <input class="form-control" id="mobile_no" maxlength="10" name="mobile_no" type="number" autocomplete="off" pattern="[6-9]\d{9}" required>
+                        <div class="invalid-feedback">
+                          Please enter a valid 10-digit mobile number starting with 6-9.
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -154,7 +162,10 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">Email Address</label>
                     <div class="col-sm-7">
-                      <input class="form-control"  maxlength="100" name="email" type="text" autocomplete="off">
+                      <input class="form-control"  maxlength="100" name="email" type="email" autocomplete="off" >
+                      <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -186,7 +197,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">Mother's Name</label>
                     <div class="col-sm-7">
-                      <input class="form-control"  id="mother_Name" maxlength="30" name="mother_Name" type="text"  autocomplete="off">
+                      <input class="form-control"  id="mother_Name" maxlength="30" name="mother_Name" type="text"  autocomplete="off" required>
                     </div>
                   </div>
                 </div>
@@ -228,10 +239,11 @@
                     <label class="col-sm-4 control-label">Agent Name <span class="requiredfield">*</span>
                     </label>
                     <div class="col-sm-7">
-                      <select class="form-control " id="agent_id" name="agent_id">
-                        <option value="">select Agent</option>
-                        <option value="1">Agent Name 1</option>
-                        <option value="2">Agent Name 2</option>
+                      <select class="form-control" id="agent_id" name="agent_id" required>
+                        <option value="" disabled selected>Select Agent</option>
+                        @foreach($employees as $employee)
+                          <option value="{{ $employee->id }}">{{ $employee->employee_name }}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -242,10 +254,10 @@
                     <label class="col-sm-4 control-label">Class Name <span class="requiredfield">*</span>
                     </label>
                     <div class="col-sm-7">
-                      <select class="form-control " id="class_id" name="class_id">
+                      <select class="form-control " id="class" name="class">
                         <option value="">select Class</option>
                         <?php foreach($Classes as $Class){ ?>
-                            <option value="{{$Class['id']}}">{{$Class['title']}} [ {{$Class['class_fee']}} ]</option>
+                            <option value="{{$Class['title']}}[ {{$Class['class_fee']}}">{{$Class['title']}} [ {{$Class['class_fee']}} ]</option>
                         <?php } ?>
                       </select>
                     </div>
@@ -279,7 +291,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">AADHAR No</label>
                     <div class="col-sm-7">
-                      <input class="form-control" id="adhar_card_no" maxlength="12" name="adhar_card_no" type="text" autocomplete="off">
+                      <input class="form-control" id="adhar_card_no" maxlength="12" name="adhar_card_no" type="text" autocomplete="off" required>
                       <span class="field-validation-valid" data-valmsg-for="AadharNo" data-valmsg-replace="true"></span>
                     </div>
                   </div>
@@ -288,7 +300,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 control-label">PAN</label>
                     <div class="col-sm-7">
-                      <input class="form-control" id="pan_no" maxlength="10" name="pan_no" onkeyup="this.value = this.value.toUpperCase();" type="text"  autocomplete="off">
+                      <input class="form-control" id="pan" maxlength="10" name="pan" onkeyup="this.value = this.value.toUpperCase();" type="text"  autocomplete="off" required>
                     </div>
                   </div>
                 </div>
@@ -331,13 +343,13 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">No of Share</label>
                     <div class="col-sm-7">
-                        <input class="form-control" name="allocate_share_no_of_share" type="text">
+                        <input class="form-control" name="allocate_share_no_of_share" id="allocate_share_no_of_share" type="text">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Pay Mode </label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="allocate_share_payment_mode">
+                        <select class="form-control" name="allocate_share_payment_mode" id="allocate_share_payment_mode">
                         <option value=""></option>
                         <option selected="selected" value="Cash">Cash</option>
                         <option value="Cheque">Cheque</option>
@@ -345,61 +357,7 @@
                         </select>
                     </div>
                 </div>
-                <div id="AllocateShareMemberCreation_CurrencyDenominationDiv" class="">
-                    <div class="modal modal-default fade" id="modal-AllocateShareMemberCreation_currencydenomination" style="display: none;">
-                    </div>
-                </div>
-                <div id="AllocateShareMemberCreation_ChequeDetailDiv" class="displaynone">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Bank Name<span class="requiredfield">*</span></label>
-                        <div class="col-sm-7">
-                            <select class="form-control" name="allocate_share_ship_fees_bank_id">
-                              <option value="">Select Bank</option>
-                              @foreach ($banks as $key => $bank)
-                              <option value="{{$bank['id']}}">{{$bank['title']}}</option>
-                              @endforeach
-                             </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Cheque No.<span class="requiredfield">*</span></label>
-                        <div class="col-sm-2">
-                            <input class="form-control" maxlength="6" name="allocate_share_cheque_no" type="text" >
-                        </div>
-                        <label class="col-sm-2 control-label">Cheque Date <span class="requiredfield">*</span></label>
-                        <div class="col-sm-3">
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input class="form-control" name="allocate_share_cheque_date" type="text">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="AllocateShareMemberCreation_OnlineDetailDiv" class="displaynone">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Reference No.<span class="requiredfield">*</span></label>
-                        <div class="col-sm-7">
-                            <input class="form-control" maxlength="50" name="allocate_share_ref_no" type="text">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="AllocateShareMemberCreation_bankaccountdiv" class="displaynone">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Bank Account<span class="requiredfield">*</span></label>
-                        <div class="col-sm-7">
-                          <select class="form-control" name="allocate_share_bank_account_ledger_id"> <option value="">--Select Bank Account--</option>
-                                @foreach ($Ledgers as $key => $Ledger)
-                                <option value="{{$Ledger->id}}">{{$Ledger->title}}</option>
-                                @endforeach
-                                </select>
-                        </div>
-                    </div>
-                </div>
+            
             </div>
 
             <div class="col-md-6">
@@ -408,7 +366,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">MemberShip Fee</label>
                         <div class="col-sm-7">
-                            <input class="form-control" name="member_ship_fees_amount" type="text">
+                            <input class="form-control" name="member_ship_fees_amount" id="member_ship_fees_amount" type="text">
                         </div>
                     </div>
 
@@ -416,7 +374,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Pay Mode</label>
                         <div class="col-sm-7">
-                            <select class="form-control" name="member_ship_payment_mode">
+                            <select class="form-control" name="member_ship_payment_mode" id="member_ship_payment_mode">
                             <option value=""></option>
                             <option selected="selected" value="Cash">Cash</option>
                             <option value="Cheque">Cheque</option>
@@ -425,62 +383,7 @@
                         </div>
                     </div>
 
-                    <div id="MemberShipFees_ChequeDetailDiv" class="displaynone">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Bank Name<span class="requiredfield">*</span></label>
-                            <div class="col-sm-7">
-                              <select class="form-control" name="member_ship_fees_bank_id">
-                              <option value="">Select Bank</option>
-                              @foreach ($banks as $key => $bank)
-                              <option value="{{$bank['id']}}">{{$bank['title']}}</option>
-                              @endforeach
-                             </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Cheque No.</label>
-                            <div class="col-sm-2">
-                                <input class="form-control" maxlength="6" name="member_ship_cheque_no" type="text">
-                            </div>
-                            <label class="col-sm-2 control-label">Cheque Date <span class="requiredfield">*</span></label>
-                            <div class="col-sm-3">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input class="form-control" name="member_ship_cheque_date" type="text">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="MemberShipFees_OnlineDetailDiv" class="displaynone">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Reference No.<span class="requiredfield">*</span></label>
-                            <div class="col-sm-7">
-                                <input class="form-control" name="member_ship_ref_no" type="text">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="MemberShipFees_bankaccountdiv" class="displaynone">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Bank Account<span class="requiredfield">*</span></label>
-                            <div class="col-sm-7">
-                              <select class="form-control" name="member_shipFees_bank_account_ledger_id"> <option value="">--Select Bank Account--</option>
-                                @foreach ($Ledgers as $key => $Ledger)
-                                <option value="{{$Ledger->id}}">{{$Ledger->title}}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
               
-             
 
               </div>
             </div>
@@ -501,4 +404,27 @@
     </div>
   </div>
    </form>
+
+   <script>
+  document.getElementById("mobile_no").addEventListener("input", function () {
+  let mobileInput = this.value.trim();
+  let errorDiv = document.getElementById("mobile_error");
+
+  // Remove non-numeric characters
+  this.value = this.value.replace(/\D/g, '');
+
+  // Mobile number validation: Exactly 10 digits & starts with 6-9
+  let mobilePattern = /^[6-9]\d{9}$/;
+
+  if (!mobilePattern.test(this.value)) {
+    this.classList.add("is-invalid");
+    errorDiv.style.display = "block";
+    errorDiv.innerText = "Please enter a valid 10-digit mobile number starting with 6-9.";
+  } else {
+    this.classList.remove("is-invalid");
+    errorDiv.style.display = "none";
+  }
+});
+    </script>
+
 </section>

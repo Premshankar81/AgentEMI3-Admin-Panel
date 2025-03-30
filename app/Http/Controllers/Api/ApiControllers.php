@@ -7,7 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\User;
+use App\Models\Employees;
+use App\Models\SavingScheme;
 use App\Models\Admin;
+use App\Models\Member;
+use App\Models\FdScheme;
+use Illuminate\Support\Str;
+use App\Models\RdScheme;
+use App\Models\LoanApplication;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Projects;
 use App\Models\SavingAccount;
 use App\Models\FixedDeposit;
@@ -653,7 +661,480 @@ class ApiControllers extends Controller
     }
     
     
+     public function getActiveEmployees(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+            $status = $request->query('status', 'active');
+
+            // Fetch only 'id' and 'employee_name' of employees with given status
+            $employees = Employees::where('status', $status)
+                                  ->select('id', 'employee_name')
+                                  ->get();
+
+            // Check if employees exist
+            if ($employees->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No employees found with the given status.',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Agent data get Successfully',
+                'status_code' => 200,
+                'employees' => $employees
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching employees: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching employees.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
     
+     public function getClasses(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+             $classes   = Helper::getClass();
+
+            // Check if employees exist
+            if ($classes->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No classes found .',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Class data get Successfully',
+                'status_code' => 200,
+                'classes' => $classes
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching employees: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching classes.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    
+     public function getNewMember(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+            $members = Member::where('delete_status', '0')->where('status', 'Approved')->where('is_active', 'false')->select('id', 'name', 'mobile_no')->get();
+
+            // Check if employees exist
+            if ($members->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No Member found .',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Members data fetched Successfully',
+                'status_code' => 200,
+                'members' => $members
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching employees: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching classes.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+     public function getFixedDepositScheme(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+            $fdScheme = FdScheme::where('delete_status', '0')->select('id', 'scheme_name', 'interest_rate')->get();
+
+            // Check if employees exist
+            if ($fdScheme->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No FD Scheme found .',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'FD Scheme data fetched Successfully',
+                'status_code' => 200,
+                'fdScheme' => $fdScheme
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching fd scheme: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching fd scheme.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+     public function getRecurringDepositScheme(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+            $rdScheme = RdScheme::where('delete_status', '0')->select('id', 'scheme_name', 'interest_rate')->get();
+
+            // Check if employees exist
+            if ($rdScheme->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No FD Scheme found .',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'RD Scheme data fetched Successfully',
+                'status_code' => 200,
+                'rdScheme' => $rdScheme
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching rd scheme: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching rd scheme.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+     public function getSavingAccountScheme(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+            $savingAccountScheme = SavingScheme::where('delete_status', '0')->select('id', 'scheme_name', 'interest_rate')->get();
+
+            // Check if employees exist
+            if ($savingAccountScheme->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No FD Scheme found .',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Saving Account Scheme data fetched Successfully',
+                'status_code' => 200,
+                'savingAccountScheme' => $savingAccountScheme
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching saving account scheme: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching saving account scheme.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    
+     public function storeSavingAccount(Request $request) {
+        try {
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'application_date'   => 'required|date',
+                'customer_id'        => 'required|exists:members,id',
+                'scheme_id'          => 'required|exists:saving_schemes,id',
+                'agent_id'           => 'required|exists:employees,id',
+                'opening_amount'     => 'required|numeric|min:0',
+                'available_balance'  => 'required|numeric|min:0',
+                'close_date'         => 'nullable|date',
+                'status'             => 'required|in:active,inactive',
+                'paymode'            => 'required|in:cash,cheque,online',
+               
+            ]);
+
+            if ($validator->fails()) {
+                 return response()->json([
+                    'success' => false,
+                    'status_code' => 400,
+                    'error' => $validator->errors()
+                ], 400);
+            }
+
+            // Create a new saving account record
+            $savingAccount = SavingAccount::create([
+                'uuid'               => Str::uuid(),
+                'application_date'   => $request->application_date,
+                'customer_id'        => $request->customer_id,
+                'scheme_id'          => $request->scheme_id,
+                'agent_id'           => $request->agent_id,
+                'opening_amount'     => $request->opening_amount,
+                'available_balance'  => $request->available_balance,
+                'close_date'         => $request->close_date,
+                'status'             => $request->status,
+                'paymode'            => $request->paymode,
+                'delete_status'      => $request->delete_status ?? 0,
+            
+            ]);
+            
+              return response()->json([
+                'success' => true,
+                'message' => 'Saving account created successfully',
+                'status_code' => 200,
+                'savingAccount' => $savingAccount
+            ], 200);
+
+        } catch (Exception $e) {
+           
+              return response()->json([
+                  'success' => false,
+                  'error'   => 'Something went wrong!',
+                 'status_code' => 500,
+                 'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    
+      public function storeRecurringDeposit(Request $request)
+    {
+        try {
+            // Validate request data
+            $validator = Validator::make($request->all(), [
+                'uuid'              => 'required|unique:recurring_deposits,uuid',
+                'application_date'  => 'required|date',
+                'customer_id'       => 'required|exists:members,id',
+                'scheme_id'         => 'required|exists:rd_schemes,id',
+                'agent_id'          => 'required|exists:employees,id',
+                'rd_amount'         => 'required|numeric|min:0',
+                'rd_frequency'      => 'required|in:monthly,quarterly,half-yearly,yearly',
+                'rd_tenure'         => 'required|integer|min:1',
+                'maturity_amount'   => 'required|numeric|min:0',
+                'maturity_date'     => 'required|date',
+                'interest_rate'     => 'required|numeric|min:0',
+                'status'            => 'required|in:active,inactive',
+                'paymode'           => 'required|in:cash,cheque,online',
+                'claose_date'       => 'nullable|date',
+                'available_balance' => 'required|numeric|min:0',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation errors',
+                     'status_code' => 422,
+                    'errors'  => $validator->errors(),
+                ], 422);
+            }
+
+            // Create a new RecurringDeposit entry
+            $recurringDeposit = RecurringDeposit::create($request->all());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Recurring deposit stored successfully',
+                 'status_code' => 200,
+                'recurringDeposit'    => $recurringDeposit,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong!',
+                'status_code' => 500,
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
+    
+    
+    public function storeFixedDeposit(Request $request)
+    {
+        try {
+            // Validate Request Data
+            $validator = Validator::make($request->all(), [
+                'uuid'             => 'required|uuid',
+                'customer_id'      => 'required|exists:members,id',
+                'scheme_id'        => 'required|exists:fd_schemes,id',
+                'agent_id'        => 'required|exists:employees,id',
+                'application_date' => 'required|date',
+                'fd_amount'        => 'required|numeric|min:0',
+                'fd_frequency'     => 'required|string',
+                'fd_tenure'        => 'required|integer|min:1',
+                'maturity_amount'  => 'required|numeric|min:0',
+                'maturity_date'    => 'required|date',
+                'status'           => 'required|in:active,inactive',
+                'close_date'       => 'nullable|date',
+                'paymode'          => 'required|in:cash,cheque,online',
+                'interest_rate'    => 'required|numeric|min:0',
+                'available_balance'=> 'required|numeric|min:0',
+            ]);
+
+            // If validation fails, return errors
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'status_code' => 422,
+                    'errors'  => $validator->errors()
+                ], 422);
+            }
+
+            // Create New Fixed Deposit Entry
+            $fixedDeposit = FixedDeposit::create($request->all());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Fixed Deposit created successfully',
+                'fixedDeposit'    => $fixedDeposit,
+                'status_code' => 200,
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong!',
+                'status_code' => 500,
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+        public function loanApplication(Request $request)
+    {
+        try {
+            // Validate request data
+            $request->validate([
+                'opening_date' => 'required|date',
+                'customer_id' => 'required|integer',
+                'scheme_id' => 'required|integer',
+                'agent_id' => 'required|integer',
+                'loan_purpose' => 'required|string',
+                'loan_amount' => 'required|numeric|min:0',
+                'interest_rate' => 'required|numeric|min:0',
+                'loan_payout' => 'required|string',
+                'loan_tenure' => 'required|integer|min:1',
+                'loan_type' => 'required|in:flat,reducing',
+                'witness_name_1' => 'nullable|string|max:255',
+                'witness_address_1' => 'nullable|string',
+                'witness_name_2' => 'nullable|string|max:255',
+                'witness_address_2' => 'nullable|string',
+            ]);
+
+            // Store data
+            $loanApplication = LoanApplication::create($request->all());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Loan application created successfully',
+                 'status_code' => 200,
+                'data' => $loanApplication
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                 'status_code' => 200,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    public function getCollactLoanData(Request $request)
+    {
+        try {
+            // Get the status from the query string, default is 'active'
+                $emiPayout = "daily";
+                $currentDate = Carbon::today()->toDateString(); // Get the current date (YYYY-MM-DD)
+                $demandSheet = ActiveLoan::where('delete_status', '0')
+               ->where(function ($query) use ($currentDate, $emiPayout) {
+                $query->where('next_due_date', $currentDate)
+                      ->orWhere('emi_payout', $emiPayout);
+            })->get();
+        
+
+            // Check if employees exist
+            if ($demandSheet->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No active loan found .',
+                    'status_code' => 404,
+                ], 404);
+            }
+
+            // Return response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Data fetched Successfully',
+                'status_code' => 200,
+                'data' => $demandSheet
+            ], 200);
+
+        } catch (Exception $e) {
+            // Log the error for debugging
+            Log::error('Error fetching acctive loan: ' . $e->getMessage());
+
+            // Return JSON error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching saving account scheme.',
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
     
      
     

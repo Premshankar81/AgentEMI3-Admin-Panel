@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('admin.auth.login');
 });
 
+Route::get('/storage-link', function () {
+  Artisan::call('storage:link');
+  return 'Storage link created successfully!';
+});
+
 
  Route::get('invoice/v1/{id}', 'HomeController@index')->name('customer.invoice'); 
 
@@ -163,32 +168,33 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     
     /*Customer*/
     Route::get('customer', 'CustomerController@index')->name('admin.customer.index');
+    Route::get('customers-list', 'CustomerController@customerList')->name('admin.customer.customer.list');
     Route::get('customer-create', 'CustomerController@create')->name('admin.customer.create');
-    Route::post('customer-store', 'CustomerController@store_record')->name('admin.customer.store');
+    Route::post('customer-store', 'CustomerController@store_record')->name('admin.customer.store.basicDetails');
     Route::get('customer-list', 'CustomerController@list')->name('admin.customer.list');
     Route::post('customer-update', 'CustomerController@update_row')->name('admin.customer.update');
     Route::get('customer-export', 'CustomerController@export')->name('admin.customer.export');
     Route::post('customer-delete', 'CustomerController@delete_row')->name('admin.customer.delete');
     Route::get('/customer/{id}/edit', 'CustomerController@get_row')->name('admin.customer.edit');  
 
-    Route::get('/customer/{id}/manage', 'CustomerController@manage_row')->name('admin.customer.manage');  
-
+    Route::get('/customer/basic-details/{id}', 'CustomerController@editBasicDetails')->name('admin.customer.edit.basicDetails');  
     Route::get('/customer/{id}/address', 'CustomerController@address_row')->name('admin.customer.address');  
     Route::post('customer-address', 'CustomerController@update_address')->name('admin.customer.update_address');
+    
 
     Route::get('/customer/{id}/bankDetail', 'CustomerController@bankDetail_row')->name('admin.customer.bankDetail');  
-    Route::post('customer-bankDetail', 'CustomerController@update_bankDetail')->name('admin.customer.update_bankDetail');
+    Route::post('/customer-bankDetail', 'CustomerController@update_bankDetail')->name('admin.customer.update_bankDetail');
 
     Route::get('/customer/{id}/professionDetail', 'CustomerController@professionDetail_row')->name('admin.customer.professionDetail');  
     Route::post('customer-professionDetail', 'CustomerController@professionDetail_update')->name('admin.customer.professionDetail_update');
     
     Route::get('/customer/{id}/electricBillDetail', 'CustomerController@electricBillDetail_row')->name('admin.customer.electricBillDetail');  
     Route::post('customer-electricBillDetail', 'CustomerController@electricBillDetail_update')->name('admin.customer.electricBillDetail_update');
-
-
+    Route::get('/customer/details/{id}', 'CustomerController@viewCustomerDetails')->name('admin.customer.view.details');
+    Route::patch('/customer/update/status/{id}', 'CustomerController@updateCustomerStatus')->name('admin.customer.update.status');
     Route::get('/customer/{id}/memberNominee', 'CustomerController@memberNominee_row')->name('admin.customer.mMemberNominee');  
     Route::post('customer-memberNominee', 'CustomerController@memberNominee_update')->name('admin.customer.mMemberNominee_update');
-
+    Route::post('customer-upload-documents', 'CustomerController@customerUploadDocuments')->name('admin.customer.upload_documents');
     Route::get('/customer/{id}/KYCManage', 'CustomerController@KYCManage_row')->name('admin.customer.KYCManage');  
     Route::post('customer-KYCManage', 'CustomerController@KYCManage_update')->name('admin.customer.KYCManage_update');
 
@@ -203,7 +209,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('/customer/{id}/MemberShipFee', 'CustomerController@MemberShipFeeManage_row')->name('admin.customer.MemberShipFee');  
     Route::get('/customer/{id}/MemberShipFeeDetail', 'CustomerController@MemberShipFeeDetail')->name('admin.templates.customer.MemberShipFeeDetail');  
     Route::post('customer-MemberShipFee', 'CustomerController@MemberShipFeeManage_add')->name('admin.customer.MemberShipFee_add');  
-       Route::post('MemberShipFee-delete', 'CustomerController@delete_MemberShipFee_row')->name('admin.MemberShipFee.delete');
+     Route::post('MemberShipFee-delete', 'CustomerController@delete_MemberShipFee_row')->name('admin.MemberShipFee.delete');
 
     Route::get('/customer/{id}/ShareCertificateDetails', 'CustomerController@ShareCertificateDetails')->name('admin.customer.ShareCertificateDetails');  
 

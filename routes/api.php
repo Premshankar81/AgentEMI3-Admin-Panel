@@ -59,11 +59,25 @@ Route::post('get_PaymentCollectionLoan', 'Api\ApiControllers@get_PaymentCollecti
 
 // apply employees leave
 Route::post('employee-apply-leave', 'Admin\AllEmployeesController@applyLeave')->name('admin.employee.applyLeave');
-Route::post('add-member', 'Admin\MemberController@store')->name('admin.add.member');
+Route::post('add-member-basic-details', 'Api\MemberController@storeBasicDetails')->name('admin.member.basicDetails.add');
+Route::post('add-member-address', 'Api\MemberController@update_address')->name('admin.member.address.update');
+Route::post('add-member-bank-details', 'Api\MemberController@update_bankDetail')->name('admin.member.bankDetail.update');
+Route::post('add-member-employment-details', 'Api\MemberController@professionDetail_update')->name('admin.member.employment.details.update');
+Route::post('add-member-electricity-details', 'Api\MemberController@electricBillDetail_update')->name('admin.member.electricity.details.update');
+Route::post('add-member-nominee-details', 'Api\MemberController@memberNominee_update')->name('admin.member.nominee.details.update');
+Route::post('add-member-documents-details', 'Api\MemberController@customerUploadDocuments')->name('admin.member.documents.details.update');
 
+Route::get('get-all-active-employees', 'Api\ApiControllers@getActiveEmployees');
+Route::get('get-all-classes', 'Api\ApiControllers@getClasses');
+Route::get('get-all-new-members', 'Api\ApiControllers@getNewMember');
+Route::get('get-all-fd-scheme', 'Api\ApiControllers@getFixedDepositScheme');
+Route::get('get-all-rd-scheme', 'Api\ApiControllers@getRecurringDepositScheme');
+Route::get('get-all-savingAccount-scheme', 'Api\ApiControllers@getSavingAccountScheme');
 
-
-
+Route::post('add-saving-account', 'Api\ApiControllers@storeSavingAccount');
+Route::post('add-recurring-deposit', 'Api\ApiControllers@storeRecurringDeposit');
+Route::post('add-fixed-deposit', 'Api\ApiControllers@storeFixedDeposit');
+Route::post('collact-loan', 'Api\ApiControllers@getCollactLoanData');
 
 
 

@@ -410,9 +410,19 @@ class Helper{
     }
     
     public static function get_branch_code(){
-        $rows = Admin::where('delete_status','0')->where('id',Auth::guard('admin')->user()->id)->first();
-        return $rows->branch_code;
-    }
+        if(Auth::guard('admin')->user()!=null){
+             $rows = Admin::where('delete_status', '0')
+         ->where('id', Auth::guard('admin')->user()->id)
+         ->first();
+             
+        }else{
+           return redirect()->away('http://localhost:8000')->send();
+  
+        }
+        
+   
+     return $rows->branch_code;
+     }
         
     public static function get_Director_number(){
          

@@ -24,10 +24,29 @@
     <li class="active">
       <a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
     </li>
-    <li class="active">
-        <a href="{{route('admin.customer.index')}}">
-        <i class="fa fa-user-circle"></i> Member Admission </a>
+   
+    <li class="treeview">
+      <a href="#">
+        <i class="fa fa-table"></i>
+        <span>Member Admission</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li>
+          <a href="{{route('admin.customer.index')}}">
+            <i class="fa fa-circle-o"></i>Applications </a>
+        </li>
+        <li>
+          <a href="{{route('admin.customer.customer.list')}}">
+            <i class="fa fa-circle-o"></i> Customer List </a>
+        </li>
+       
+      </ul>
     </li>
+
+
     <li class="treeview">
       <a href="#">
         <i class="fa fa-table"></i>

@@ -44,15 +44,39 @@
             @include('admin.templates.customer.list')
         @endif
 
-        @if(Request::route()->getName() == 'admin.customer.store') 
+        @if(Request::route()->getName() == 'admin.customer.customer.list') 
            @include('admin.templates.customer.list')
+        @endif
+        @if(Request::route()->getName() == 'admin.customer.upload_documents') 
+        @include('admin.templates.customer.list')
+        @endif
+        @if(Request::route()->getName() == 'admin.customer.store.basicDetails') 
+           @include('admin.templates.customer.address')
+        @endif
+        
+        @if(Request::route()->getName() == 'admin.customer.mMemberNominee_update') 
+            @include('admin.templates.customer.customerDocuments')
+         @endif
+        @if(Request::route()->getName() == 'admin.customer.electricBillDetail_update') 
+           @include('admin.templates.customer.memberNominee')
+        @endif
+        
+        @if(Request::route()->getName() == 'admin.customer.update_bankDetail') 
+           @include('admin.templates.customer.profession_detail')
+        @endif
+        @if(Request::route()->getName() == 'admin.customer.view.details') 
+           @include('admin.templates.customer.customerAllDetails')
+        @endif
+        
+        @if(Request::route()->getName() == 'admin.customer.update_address') 
+          @include('admin.templates.customer.bankdetail')
         @endif
 
         @if(Request::route()->getName() == 'admin.customer.edit') 
             @include('admin.templates.customer.update')
         @endif
 
-        @if(Request::route()->getName() == 'admin.customer.manage') 
+        @if(Request::route()->getName() == 'admin.customer.edit.basicDetails') 
             @include('admin.templates.customer.basic_info')
         @endif
 
@@ -79,6 +103,10 @@
         @if(Request::route()->getName() == 'admin.customer.KYCManage') 
             @include('admin.templates.customer.KYCManage')
         @endif
+
+        @if(Request::route()->getName() == 'admin.customer.professionDetail_update') 
+        @include('admin.templates.customer.electricBillDetail')
+         @endif
 
         @if(Request::route()->getName() == 'admin.customer.welcomeLetter') 
             @include('admin.templates.customer.welcomeLetter')
@@ -191,7 +219,7 @@ function add_member_ship(form)
 // function add_row(form)
 // {
 //      var formData = new FormData(form);
-//      var API_URL = "{{ route('admin.customer.store') }}";
+//    
 
 //         $.ajax({
 //             url: API_URL,
@@ -269,31 +297,31 @@ function add_member_ship(form)
             });
       }
 
-    function update_address()
-    {
-        var form = $('#update_form_address')[0]; // You need to use standard javascript object here
-        var formData = new FormData(form);
-        var API_URL = "{{ route('admin.customer.update_address') }}";
-            $.ajax({
-                url: API_URL,
-                type: 'POST',
-                data: formData,
-                async: false,
-                dataType: 'json',
-                contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-                processData: false, // NEEDED, DON'T OMIT THIS
-                success: function (data){
-                    if (data["status"] == 1){
-                        success_notification(data['msg'])
-                    }else{
-                        error_notification(data['msg'])
-                    }
-                },
-                error: function (data) {
-                    alert('server unavailable');
-                }
-            });
-    }
+    // function update_address()
+    // {
+    //     var form = $('#update_form_address')[0]; // You need to use standard javascript object here
+    //     var formData = new FormData(form);
+    //     var API_URL = "{{ route('admin.customer.update_address') }}";
+    //         $.ajax({
+    //             url: API_URL,
+    //             type: 'POST',
+    //             data: formData,
+    //             async: false,
+    //             dataType: 'json',
+    //             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+    //             processData: false, // NEEDED, DON'T OMIT THIS
+    //             success: function (data){
+    //                 if (data["status"] == 1){
+    //                     success_notification(data['msg'])
+    //                 }else{
+    //                     error_notification(data['msg'])
+    //                 }
+    //             },
+    //             error: function (data) {
+    //                 alert('server unavailable');
+    //             }
+    //         });
+    // }
 
     function update_bankdetail()
     {
@@ -347,58 +375,58 @@ function add_member_ship(form)
             });
     }
 
-    function update_memberNominee()
-    {
-        var form = $('#update_form_memberinfo')[0]; // You need to use standard javascript object here
-        var formData = new FormData(form);
-        var API_URL = "{{ route('admin.customer.mMemberNominee_update') }}";
-            $.ajax({
-                url: API_URL,
-                type: 'POST',
-                data: formData,
-                async: false,
-                dataType: 'json',
-                contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-                processData: false, // NEEDED, DON'T OMIT THIS
-                success: function (data){
-                    if (data["status"] == 1){
-                        success_notification(data['msg'])
-                        location.reload();
-                    }else{
-                        error_notification(data['msg'])
-                    }
-                },
-                error: function (data) {
-                    alert('server unavailable');
-                }
-            });
-    }
+    // function update_memberNominee()
+    // {
+    //     var form = $('#update_form_memberinfo')[0]; // You need to use standard javascript object here
+    //     var formData = new FormData(form);
+    //     var API_URL = "{{ route('admin.customer.mMemberNominee_update') }}";
+    //         $.ajax({
+    //             url: API_URL,
+    //             type: 'POST',
+    //             data: formData,
+    //             async: false,
+    //             dataType: 'json',
+    //             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+    //             processData: false, // NEEDED, DON'T OMIT THIS
+    //             success: function (data){
+    //                 if (data["status"] == 1){
+    //                     success_notification(data['msg'])
+    //                     location.reload();
+    //                 }else{
+    //                     error_notification(data['msg'])
+    //                 }
+    //             },
+    //             error: function (data) {
+    //                 alert('server unavailable');
+    //             }
+    //         });
+    // }
 
-    function update_electricBillDetail()
-    {
-        var form = $('#update_form_electricBillDetail')[0]; // You need to use standard javascript object here
-        var formData = new FormData(form);
-        var API_URL = "{{ route('admin.customer.electricBillDetail_update') }}";
-            $.ajax({
-                url: API_URL,
-                type: 'POST',
-                data: formData,
-                async: false,
-                dataType: 'json',
-                contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-                processData: false, // NEEDED, DON'T OMIT THIS
-                success: function (data){
-                    if (data["status"] == 1){
-                        success_notification(data['msg'])
-                    }else{
-                        error_notification(data['msg'])
-                    }
-                },
-                error: function (data) {
-                    alert('server unavailable');
-                }
-            });
-    }
+    // function update_electricBillDetail()
+    // {
+    //     var form = $('#update_form_electricBillDetail')[0]; // You need to use standard javascript object here
+    //     var formData = new FormData(form);
+    //     var API_URL = "{{ route('admin.customer.electricBillDetail_update') }}";
+    //         $.ajax({
+    //             url: API_URL,
+    //             type: 'POST',
+    //             data: formData,
+    //             async: false,
+    //             dataType: 'json',
+    //             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+    //             processData: false, // NEEDED, DON'T OMIT THIS
+    //             success: function (data){
+    //                 if (data["status"] == 1){
+    //                     success_notification(data['msg'])
+    //                 }else{
+    //                     error_notification(data['msg'])
+    //                 }
+    //             },
+    //             error: function (data) {
+    //                 alert('server unavailable');
+    //             }
+    //         });
+    // }
 
     function update_KYCManage()
     {

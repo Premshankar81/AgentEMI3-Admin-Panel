@@ -27,8 +27,7 @@ class PaymentCollectLoanController extends Controller
        ->where(function ($query) use ($currentDate, $emiPayout) {
         $query->where('next_due_date', $currentDate)
               ->orWhere('emi_payout', $emiPayout);
-    })
-    ->get();
+    })->get();
 
         $data = [
             'page_title' => 'PAYMENT TO COLLECT (Loan)',
